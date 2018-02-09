@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1518124660 source:e:\przysz³yprogramista\ksiazkaadresowazuzytkownikami\main.cpp
+	<iostream>
+	<windows.h>
+	<fstream>
+	<vector>
+

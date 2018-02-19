@@ -39,18 +39,32 @@ string zWielkiejLitery(string wyraz) {
     return wyraz;
 }
 
-void dodanieDoPlikuJednegoZnajomego(Znajomy nowy) {
+//void dodanieDoPlikuJednegoZnajomego(Znajomy nowy) {
+//    fstream plik;
+//    plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
+//
+//    plik<<nowy.idZnajomego<<"|"<<nowy.idUzytkownika<<"|"<<nowy.imie<<"|"<<nowy.nazwisko<<"|"<<nowy.adres<<"|"<<nowy.telefon<<"|"<<nowy.mail<<"|"<<endl;
+//
+//    plik.close();
+//}
+
+vector <Znajomy> pobranieWszystkichZnajomychZPliku ();
+
+void dodanieDoPlikuWszystkichZnajomych(vector <Znajomy> znajomi) {
+
     fstream plik;
-    plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
+    plik.open("KsiazkaAdresowa.txt", ios::out | ios::in);
+    for (int i=0; i<znajomi.size(); i++) {
 
-    plik<<nowy.idZnajomego<<"|"<<nowy.idUzytkownika<<"|"<<nowy.imie<<"|"<<nowy.nazwisko<<"|"<<nowy.adres<<"|"<<nowy.telefon<<"|"<<nowy.mail<<"|"<<endl;
-
+        plik<<znajomi[i].idZnajomego<<"|"<<znajomi[i].idUzytkownika<<"|"<<znajomi[i].imie<<"|"<<znajomi[i].nazwisko<<"|"<<znajomi[i].adres<<"|"<<znajomi[i].telefon<<"|"<<znajomi[i].mail<<"|"<<endl;
+    }
     plik.close();
 }
 
-void dodanieDoPlikuWszystkichZnajomych(vector <Znajomy> znajomi) {
+void dodanieDoPlikuWszystkichZnajomychNadpisaniem(vector <Znajomy> znajomi) {
+    //vector <Znajomy> wszyscyZnajomiZPliku=pobranieWszystkichZnajomychZPliku();
     fstream plik;
-    plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
+    plik.open("KsiazkaAdresowa.txt", ios::out | ios::trunc);
     for (int i=0; i<znajomi.size(); i++) {
 
         plik<<znajomi[i].idZnajomego<<"|"<<znajomi[i].idUzytkownika<<"|"<<znajomi[i].imie<<"|"<<znajomi[i].nazwisko<<"|"<<znajomi[i].adres<<"|"<<znajomi[i].telefon<<"|"<<znajomi[i].mail<<"|"<<endl;
@@ -93,6 +107,7 @@ Uzytkownik pobranieUzytkownikaZJednejLinii(string liniaZPliku) {
     return uzytkownikDoDodania;
 }
 
+
 Znajomy pobranieZnajomegoZJednejLinii(string liniaZPliku) {
 
     string roboczy;
@@ -102,7 +117,6 @@ Znajomy pobranieZnajomegoZJednejLinii(string liniaZPliku) {
     int id;
     string imie, nazwisko, adres, telefon, mail;
 
-//pobieranie po kolei liter i dodanie do zmiennej roboczy
     for (int i=0; i<liniaZPliku.length(); i++) {
         if (liniaZPliku[i]!=124) {
             literaDoDodania=liniaZPliku[i];
@@ -139,6 +153,33 @@ Znajomy pobranieZnajomegoZJednejLinii(string liniaZPliku) {
 
     return adresatDoDodania;
 }
+
+int pobranieNajwiekszegoIdZnajomego (vector <Znajomy> znajomi)
+{
+    string liniaZPliku;
+    int najwiekszeIdZnajomego=0;
+    fstream plik;
+    Znajomy znajomyRoboczy;
+
+    plik.open("KsiazkaAdresowa.txt", ios::in);
+
+    if (plik.good() == true) {
+        while(getline(plik,liniaZPliku)) {
+            znajomyRoboczy=pobranieZnajomegoZJednejLinii(liniaZPliku);
+
+            if(znajomyRoboczy.idZnajomego>najwiekszeIdZnajomego)
+            najwiekszeIdZnajomego=znajomyRoboczy.idZnajomego;
+        }
+
+        plik.close();
+    }
+    for (int i=0; i<znajomi.size();i++)
+        if(znajomi[i].idZnajomego>najwiekszeIdZnajomego)
+            najwiekszeIdZnajomego=znajomi[i].idZnajomego;
+
+    return najwiekszeIdZnajomego;
+}
+
 
 vector <Znajomy> pobranieWszystkichZnajomychZPlikuDlaDanegoUzytkownika (int id) {
     Znajomy znajomyRoboczy;
@@ -185,6 +226,7 @@ vector <Znajomy> dodanieZnajomego(vector <Znajomy> znajomi, int idUzytkownika) {
 
     Znajomy nowy;
     string ulica, nrMieszkania, kodPocztowy, miejscowosc;
+    int najwiekszeIdZnajomego=0;
 
     cout << "Podaj imie znajomego: ";
     cin >> nowy.imie;
@@ -226,9 +268,11 @@ vector <Znajomy> dodanieZnajomego(vector <Znajomy> znajomi, int idUzytkownika) {
     system("cls");
     nowy.adres = ulica+" "+ nrMieszkania+", "+ kodPocztowy+", "+ miejscowosc;
 
-    if(znajomi.size()>0)
-        nowy.idZnajomego = (znajomi[znajomi.size()-1].idZnajomego)+1;
-    else nowy.idZnajomego=1;
+    nowy.idZnajomego=pobranieNajwiekszegoIdZnajomego(znajomi)+1;
+
+    //if(znajomi.size()>0)
+    //    nowy.idZnajomego = (znajomi[znajomi.size()-1].idZnajomego)+1;
+    //else nowy.idZnajomego=1;
 
     nowy.idUzytkownika = idUzytkownika;
 
@@ -236,7 +280,7 @@ vector <Znajomy> dodanieZnajomego(vector <Znajomy> znajomi, int idUzytkownika) {
 
     system("cls");
 
-    dodanieDoPlikuJednegoZnajomego(nowy);
+    //dodanieDoPlikuJednegoZnajomego(nowy);
 
     cout << "Znajomy dodany";
     Sleep(2000);
@@ -308,7 +352,6 @@ void listaZnajomych (vector<Znajomy> znajomi) {
         for(int i=0; i < znajomi.size(); i++)
             cout<<znajomi[i].imie<<endl<<znajomi[i].nazwisko<<endl<<znajomi[i].adres<<endl<<znajomi[i].telefon<<endl<<znajomi[i].mail<<endl<<endl;
 
-system("pause");
 
     } else {
         cout<<"nie masz znajomych";
@@ -333,7 +376,7 @@ int okreslenieKtoryZnajomyMaBycEdytowany (vector <Znajomy> znajomi, string wybra
     cout<<"nie ma takiego kontaktu"<<endl;
     system("pause");
     system("cls");
-    return -1;
+    return (-1);
 }
 
 vector <Znajomy> edycjaZnajomego(vector <Znajomy> znajomi, int idZnajomego) {
@@ -347,7 +390,6 @@ vector <Znajomy> edycjaZnajomego(vector <Znajomy> znajomi, int idZnajomego) {
             cout<<"4. telefon"<<endl;
             cout<<"5. mail"<<endl;
 
-            cout<<endl<<"ID "<<znajomi[i].idZnajomego<<" "<<idZnajomego<<endl;
             cin>>wybor;
             switch (wybor) {
 
@@ -405,24 +447,24 @@ vector <Znajomy> edycjaZnajomego(vector <Znajomy> znajomi, int idZnajomego) {
 
         }
     }
-
+    //dodanieDoPlikuWszystkichZnajomych(znajomi);
     return znajomi;
 }
-void usuniecieWierszaKontakuZPliku(int idZnajomego)
-{
-   vector <Znajomy> znajomi=pobranieWszystkichZnajomychZPliku();
-   for (int i=0; i<znajomi.size(); i++)
-       if(idZnajomego==znajomi[i].idZnajomego)
-        znajomi.erase(znajomi.begin()+i);
-    dodanieDoPlikuWszystkichZnajomych(znajomi);
-}
+//void usuniecieWierszaKontakuZPliku(int idZnajomego)
+//{
+//   vector <Znajomy> znajomi=pobranieWszystkichZnajomychZPliku();
+//   for (int i=0; i<znajomi.size(); i++)
+//       if(idZnajomego==znajomi[i].idZnajomego)
+//        znajomi.erase(znajomi.begin()+i);
+//    dodanieDoPlikuWszystkichZnajomych(znajomi);
+//}
 
 vector <Znajomy> usuniecieZnajomego (vector <Znajomy> znajomi, int idZnajomego) {
     for(int i=0; i<znajomi.size(); i++) {
         if(znajomi[i].idZnajomego==idZnajomego) {
             znajomi.erase(znajomi.begin()+i);
 
-            usuniecieWierszaKontakuZPliku(idZnajomego);
+            //usuniecieWierszaKontakuZPliku(idZnajomego);
 
             cout<<"Kontakt zostal pomyslnie usuniety !!"<<endl;
             Sleep(2000);
@@ -491,27 +533,39 @@ vector <Znajomy> edycjaLubUsuniecieZnajomego(vector <Znajomy> znajomi) {
             break;
 
 
-            }
-            return znajomi;
-        } else
-            return znajomi;
+           } }
+
     } else cout<<"nie masz znajomych"<<endl;
     Sleep(2000);
     system("cls");
     return znajomi;
 }
 
-vector <Znajomy> ksiazkaAdresowa(vector <Znajomy> znajomi, string login, int idUzytkownika) {
+vector <Znajomy> porownanieWektorowIAktualizacjaZnajomychPoWylogowaniu(vector <Znajomy> znajomi, vector <Znajomy> znajomiZOstatniegoLogowania, int idUzytkownika) {
+               for(int k=0; k<znajomi.size(); k++)
+                   if (znajomi[k].idUzytkownika==idUzytkownika)
+                   {
+                        znajomi.erase(znajomi.begin()+k);
+                        k--;
+                   }
+
+            for(int k=0; k<znajomiZOstatniegoLogowania.size();k++)
+                    znajomi.push_back(znajomiZOstatniegoLogowania[k]);
+
+return znajomi;
+ }
+
+vector <Znajomy> ksiazkaAdresowa(string login, int idUzytkownika) { //vector <Znajomy> znajomi,   vector <Znajomy>
 
 
     cout <<login<<" - witaj w Twojej ksiazce adresowej!" << endl;
-
-    znajomi=pobranieWszystkichZnajomychZPlikuDlaDanegoUzytkownika(idUzytkownika);
+    vector <Znajomy> znajomiUzytkownika=pobranieWszystkichZnajomychZPlikuDlaDanegoUzytkownika(idUzytkownika);
+    vector <Znajomy> znajomi;
 
     char wybor;
 
     while(1) {
-        cout << "Ilosc wpisanych znajomych: "<< znajomi.size() << endl<<endl;
+        cout << "Ilosc wpisanych znajomych: "<< znajomiUzytkownika.size() << endl<<endl;
         cout << "Wybierz co chcesz teraz zrobic:" << endl;
         cout << "1. Dodaj znajomego" << endl;
         cout << "2. Znajdz znajomego" << endl;
@@ -524,25 +578,36 @@ vector <Znajomy> ksiazkaAdresowa(vector <Znajomy> znajomi, string login, int idU
         switch (wybor) {
 
         case '1': {
-            znajomi=dodanieZnajomego(znajomi, idUzytkownika);
+            znajomiUzytkownika=dodanieZnajomego(znajomiUzytkownika, idUzytkownika);
         }
         break;
         case '2': {
-            wyszukiwanieZnajomego(znajomi);
+            wyszukiwanieZnajomego(znajomiUzytkownika);
         }
         break;
         case '3': {
-            listaZnajomych(znajomi);
+            listaZnajomych(znajomiUzytkownika);
+            system("pause");
             system("cls");
         }
         break;
         case '4': {
-            znajomi=edycjaLubUsuniecieZnajomego(znajomi);
+            znajomiUzytkownika=edycjaLubUsuniecieZnajomego(znajomiUzytkownika);
         }
         break;
         case '9': {
             cout << "Do zobaczenia!";
+
             Sleep(1000);
+            vector <Znajomy> wszyscyZnajomi = pobranieWszystkichZnajomychZPliku ();
+            znajomi=porownanieWektorowIAktualizacjaZnajomychPoWylogowaniu(wszyscyZnajomi, znajomiUzytkownika, idUzytkownika);
+
+            cout<<endl;
+            for(int i=0; i < znajomi.size(); i++)
+            cout<<znajomi[i].idZnajomego<<" "<<znajomi[i].idUzytkownika<<endl<<znajomi[i].imie<<endl<<znajomi[i].nazwisko<<endl<<znajomi[i].adres<<endl<<znajomi[i].telefon<<endl<<znajomi[i].mail<<endl<<endl;
+
+            system("pause");
+
             return znajomi;
         }
         break;
@@ -604,10 +669,12 @@ void zabezpieczenieTrzechBlednychHasel ()
     }
 }
 
-vector <Znajomy> logowanie(vector <Uzytkownik> uzytkownicy)
+void logowanie(vector <Uzytkownik> uzytkownicy) //vector <Znajomy>
 {
     char wybor;
     vector <Znajomy> znajomi;
+    vector <Znajomy> wszystkieWpisyKsiazkiAdresowej;
+
     int licznikBlednychHasel=0;
     bool zatwierdzoneHaslo=false;
     int id;
@@ -634,7 +701,7 @@ vector <Znajomy> logowanie(vector <Uzytkownik> uzytkownicy)
         cout<<"Podaj haslo dla loginu "<<login<<" lub powroc do menu glownego, wpisujac 0 i zatwierdzajac enterem:"<<endl;
         cin>>haslo;
 
-        if (haslo=="0") return znajomi;
+        if (haslo=="0") return;
 
             for (int j=0; j<uzytkownicy.size(); j++)
             {
@@ -642,8 +709,25 @@ vector <Znajomy> logowanie(vector <Uzytkownik> uzytkownicy)
                 {
                     zatwierdzoneHaslo=true;
                     system("cls");
-                cout<<login<<" !! "<<endl;
-                znajomi=ksiazkaAdresowa(znajomi, uzytkownicy[i].login, uzytkownicy[i].id);
+
+                wszystkieWpisyKsiazkiAdresowej=pobranieWszystkichZnajomychZPliku();
+
+                znajomi=ksiazkaAdresowa(uzytkownicy[i].login, uzytkownicy[i].id);  //znajomi=
+
+//                for(int k=0; k<wszystkieWpisyKsiazkiAdresowej.size(); k++)
+//                {
+//                    if (uzytkownicy[i].id==wszystkieWpisyKsiazkiAdresowej[k].idZnajomego)
+//                        wszystkieWpisyKsiazkiAdresowej.erase(wszystkieWpisyKsiazkiAdresowej.begin()+k);
+//                }
+//
+//                for(int k=0; k<znajomiOstatnioZalogowanegoUzytkownika.size();k++)
+//                {
+//                    wszystkieWpisyKsiazkiAdresowej.push_back(znajomiOstatnioZalogowanegoUzytkownika[k]);
+//                }
+//
+//                dodanieDoPlikuWszystkichZnajomychNadpisaniem(wszystkieWpisyKsiazkiAdresowej);
+                    dodanieDoPlikuWszystkichZnajomychNadpisaniem(znajomi);
+
 
 
                 break;
@@ -671,11 +755,11 @@ vector <Znajomy> logowanie(vector <Uzytkownik> uzytkownicy)
          cin>>wybor;
          if (wybor=='t')
             system("cls");
-         else return znajomi;
+         else return;
         }
     }
    }
-   return znajomi;
+   return;
 }
 
 vector <Uzytkownik> rejestracja(vector <Uzytkownik> uzytkownicy)
@@ -749,7 +833,7 @@ while(1){
 
 switch(wybor){
      case '1': {
-            znajomi=logowanie(uzytkownicy);
+            logowanie(uzytkownicy);
         }
         break;
         case '2': {

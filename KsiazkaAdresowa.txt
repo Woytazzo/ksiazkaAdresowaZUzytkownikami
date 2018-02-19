@@ -1,3 +1,2 @@
-1|1|Wojtas|Wojtas|d d, d, d|3|d|
-2|1|Karafaka|Madafaka|sgs sgsg, fgjfh, jf|sgws|ddhddh|
-1|8|Janusz|Dretwy|as afaa, asfaf, fa|asdf|dh|
+0|0|nowy|nowy|nowy|nowy|nowy|
+1|1|Przyszly|Programista|programowa 1/23, 12-345, Programowo|777666555|przyszlyinformatyk@info|

@@ -1,2 +1,4 @@
 0|0|nowy|nowy|nowy|nowy|nowy|
 1|1|Przyszly|Programista|programowa 1/23, 12-345, Programowo|777666555|przyszlyinformatyk@info|
+2|1|A|S|f g, h, j|d|k|
+3|3|Pan|Gierek|g h, j, k|f|l|

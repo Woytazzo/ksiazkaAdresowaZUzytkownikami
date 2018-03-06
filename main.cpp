@@ -30,16 +30,13 @@ struct Uzytkownik {
     string login, haslo;
 };
 
-
 string zWielkiejLitery(string wyraz) {
     wyraz[0] = toupper(wyraz[0]);
-
     if (wyraz.length()>1)
         for(int i=1; i<wyraz.length(); i++)
             wyraz[i]=tolower(wyraz[i]);
     return wyraz;
 }
-
 
 Znajomy pobranieZnajomegoZJednejLinii(string liniaZPliku) {
 
@@ -61,7 +58,7 @@ Znajomy pobranieZnajomegoZJednejLinii(string liniaZPliku) {
             case 1:
                 adresatDoDodania.idZnajomego = atoi(roboczy.c_str());
                 break;
-             case 2:
+            case 2:
                 adresatDoDodania.idUzytkownika = atoi(roboczy.c_str());
                 break;
             case 3:
@@ -83,7 +80,6 @@ Znajomy pobranieZnajomegoZJednejLinii(string liniaZPliku) {
             roboczy="";
         }
     }
-
     return adresatDoDodania;
 }
 
@@ -100,14 +96,12 @@ vector <Znajomy> pobranieWszystkichZnajomychZPlikuDlaDanegoUzytkownika (int id) 
             znajomyRoboczy=pobranieZnajomegoZJednejLinii(liniaZPliku);
 
             if(znajomyRoboczy.idUzytkownika==id)
-            znajomi.push_back(znajomyRoboczy);
-
+                znajomi.push_back(znajomyRoboczy);
         }
         plik.close();
     }
     return znajomi;
 }
-
 
 vector <Znajomy> pobranieWszystkichZnajomychZPliku () {
     Znajomy znajomyRoboczy;
@@ -122,7 +116,6 @@ vector <Znajomy> pobranieWszystkichZnajomychZPliku () {
             znajomyRoboczy=pobranieZnajomegoZJednejLinii(liniaZPliku);
 
             znajomi.push_back(znajomyRoboczy);
-
         }
         plik.close();
     }
@@ -132,17 +125,14 @@ vector <Znajomy> pobranieWszystkichZnajomychZPliku () {
 void dodanieDoPlikuJednegoZnajomego(Znajomy nowy) {
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
-
     plik<<nowy.idZnajomego<<"|"<<nowy.idUzytkownika<<"|"<<nowy.imie<<"|"<<nowy.nazwisko<<"|"<<nowy.adres<<"|"<<nowy.telefon<<"|"<<nowy.mail<<"|"<<endl;
-
     plik.close();
 }
+
 void dodanieDoPlikuTymczasowegoEdytowanegoZnajomego(Znajomy edytowany) {
     ofstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::out | ios::app);
-
     plik<<edytowany.idZnajomego<<"|"<<edytowany.idUzytkownika<<"|"<<edytowany.imie<<"|"<<edytowany.nazwisko<<"|"<<edytowany.adres<<"|"<<edytowany.telefon<<"|"<<edytowany.mail<<"|"<<endl;
-
     plik.close();
 }
 
@@ -151,25 +141,22 @@ void dodanieDoPlikuWszystkichZnajomych(vector <Znajomy> &znajomi) {
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::out | ios::in);
     for (int i=0; i<znajomi.size(); i++) {
-
         plik<<znajomi[i].idZnajomego<<"|"<<znajomi[i].idUzytkownika<<"|"<<znajomi[i].imie<<"|"<<znajomi[i].nazwisko<<"|"<<znajomi[i].adres<<"|"<<znajomi[i].telefon<<"|"<<znajomi[i].mail<<"|"<<endl;
     }
     plik.close();
 }
 
 void dodanieDoPlikuWszystkichZnajomychNadpisaniem(vector <Znajomy> &znajomi) {
-    //vector <Znajomy> wszyscyZnajomiZPliku=pobranieWszystkichZnajomychZPliku();
+
     fstream plik;
     plik.open("KsiazkaAdresowa.txt", ios::out | ios::trunc);
     for (int i=0; i<znajomi.size(); i++) {
-
         plik<<znajomi[i].idZnajomego<<"|"<<znajomi[i].idUzytkownika<<"|"<<znajomi[i].imie<<"|"<<znajomi[i].nazwisko<<"|"<<znajomi[i].adres<<"|"<<znajomi[i].telefon<<"|"<<znajomi[i].mail<<"|"<<endl;
     }
     plik.close();
 }
 
-int pobranieNajwiekszegoIdZnajomego (vector <Znajomy> &znajomi)
-{
+int pobranieNajwiekszegoIdZnajomego (vector <Znajomy> &znajomi) {
     string liniaZPliku;
     int najwiekszeIdZnajomego=0;
     fstream plik;
@@ -182,12 +169,12 @@ int pobranieNajwiekszegoIdZnajomego (vector <Znajomy> &znajomi)
             znajomyRoboczy=pobranieZnajomegoZJednejLinii(liniaZPliku);
 
             if(znajomyRoboczy.idZnajomego>najwiekszeIdZnajomego)
-            najwiekszeIdZnajomego=znajomyRoboczy.idZnajomego;
+                najwiekszeIdZnajomego=znajomyRoboczy.idZnajomego;
         }
 
         plik.close();
     }
-    for (int i=0; i<znajomi.size();i++)
+    for (int i=0; i<znajomi.size(); i++)
         if(znajomi[i].idZnajomego>najwiekszeIdZnajomego)
             najwiekszeIdZnajomego=znajomi[i].idZnajomego;
 
@@ -214,23 +201,20 @@ Uzytkownik pobranieUzytkownikaZJednejLinii(string liniaZPliku) {
             case 1:
                 uzytkownikDoDodania.id = atoi(roboczy.c_str());
                 break;
-             case 2:
+            case 2:
                 uzytkownikDoDodania.login = roboczy;
                 break;
             case 3:
                 uzytkownikDoDodania.haslo = roboczy;
                 break;
             }
-
             roboczy="";
         }
     }
-
     return uzytkownikDoDodania;
 }
 
-vector <Uzytkownik> wczytanieUzytkownikowZPliku()
-{
+vector <Uzytkownik> wczytanieUzytkownikowZPliku() {
     Uzytkownik uzytkownikRoboczy;
     vector <Uzytkownik> uzytkownicy;
     string liniaZPliku;
@@ -243,7 +227,6 @@ vector <Uzytkownik> wczytanieUzytkownikowZPliku()
             uzytkownikRoboczy=pobranieUzytkownikaZJednejLinii(liniaZPliku);
 
             uzytkownicy.push_back(uzytkownikRoboczy);
-
         }
         plik.close();
     }
@@ -253,23 +236,18 @@ vector <Uzytkownik> wczytanieUzytkownikowZPliku()
 void dodanieDoPlikuJednegoUzytkownika(Uzytkownik nowy) {
     fstream plik;
     plik.open("Uzytkownicy.txt", ios::out | ios::app);
-
     plik<<nowy.id<<"|"<<nowy.login<<"|"<<nowy.haslo<<"|"<<endl;
-
     plik.close();
 }
 
-void zabezpieczenieTrzechBlednychHasel ()
-{
+void zabezpieczenieTrzechBlednychHasel () {
     system("cls");
-    for(int k=10; k>0; k--)
-    {
+    for(int k=10; k>0; k--) {
         cout<<"Wpisales bledne haslo trzy razy. Musisz odczekac "<<k<<" sekund."<<endl;
         Sleep(1000);
         system("cls");
     }
 }
-
 
 vector <Znajomy> dodanieZnajomego(vector <Znajomy> &znajomi, int idUzytkownika) {
 
@@ -334,7 +312,6 @@ vector <Znajomy> dodanieZnajomego(vector <Znajomy> &znajomi, int idUzytkownika) 
     return znajomi;
 }
 
-
 void wyszukiwanieZnajomego(vector <Znajomy> &znajomi) {
     string imie, nazwisko;
     int iloscSprawdzonychKontaktow=0;
@@ -363,7 +340,6 @@ void wyszukiwanieZnajomego(vector <Znajomy> &znajomi) {
         break;
         case '2': {
 
-
             cout<<"Podaj nazwisko wyszukiwanego znajomego"<<endl;
             cin>>nazwisko;
 
@@ -380,7 +356,6 @@ void wyszukiwanieZnajomego(vector <Znajomy> &znajomi) {
         break;
         default: {
             cout << "Blad!! Sprobuj jeszcze raz" <<endl;;
-
         }
         break;
         }
@@ -388,35 +363,28 @@ void wyszukiwanieZnajomego(vector <Znajomy> &znajomi) {
         cout<<"nie masz znajomych"<<endl;
     system("pause");
     system("cls");
-
 }
-
 
 void listaZnajomych (vector<Znajomy> &znajomi) {
     if(znajomi.size()>0) {
         for(int i=0; i < znajomi.size(); i++)
             cout<<znajomi[i].imie<<endl<<znajomi[i].nazwisko<<endl<<znajomi[i].adres<<endl<<znajomi[i].telefon<<endl<<znajomi[i].mail<<endl<<endl;
-
-
     } else {
         cout<<"nie masz znajomych";
-
         Sleep(2000);
         system("cls");
     }
-
 }
 
-string wpisanieZnajomegoDoEdycjiLubUsunieciaPoImieniuINazwisku()
-{
-   string wybraneImie, wybraneNazwisko, nazwa;
-        cout<<"Wybierz z listy kontakt do edycji lub usuniecia."<<endl;
-        cout<<"Podaj Imie i Nazwisko tego kontaktu (Imie Nazwisko):"<<endl;
-        cin>>wybraneImie>>wybraneNazwisko;
-        wybraneImie=zWielkiejLitery(wybraneImie);
-        wybraneNazwisko=zWielkiejLitery(wybraneNazwisko);
-        nazwa=wybraneImie+wybraneNazwisko;
-        return nazwa;
+string wpisanieZnajomegoDoEdycjiLubUsunieciaPoImieniuINazwisku() {
+    string wybraneImie, wybraneNazwisko, nazwa;
+    cout<<"Wybierz z listy kontakt do edycji lub usuniecia."<<endl;
+    cout<<"Podaj Imie i Nazwisko tego kontaktu (Imie Nazwisko):"<<endl;
+    cin>>wybraneImie>>wybraneNazwisko;
+    wybraneImie=zWielkiejLitery(wybraneImie);
+    wybraneNazwisko=zWielkiejLitery(wybraneNazwisko);
+    nazwa=wybraneImie+wybraneNazwisko;
+    return nazwa;
 }
 
 int okreslenieKtoryZnajomyMaBycEdytowany (vector <Znajomy> &znajomi, string nazwa) {
@@ -426,7 +394,6 @@ int okreslenieKtoryZnajomyMaBycEdytowany (vector <Znajomy> &znajomi, string nazw
             cout<<znajomi[i].adres<<endl;
             cout<<znajomi[i].telefon<<endl;
             cout<<znajomi[i].mail<<endl;
-
             return znajomi[i].idZnajomego;
         }
     }
@@ -436,28 +403,24 @@ int okreslenieKtoryZnajomyMaBycEdytowany (vector <Znajomy> &znajomi, string nazw
     return (-1);
 }
 
-void edycjaZnajomegoMenuPoczatkowe ()
-{
-  cout<<"Ktore dane chcesz edytowac?"<<endl;
-            cout<<"1. imie"<<endl;
-            cout<<"2. nazwisko"<<endl;
-            cout<<"3. adres"<<endl;
-            cout<<"4. telefon"<<endl;
-            cout<<"5. mail"<<endl;
-
+void edycjaZnajomegoMenuPoczatkowe () {
+    cout<<"Ktore dane chcesz edytowac?"<<endl;
+    cout<<"1. imie"<<endl;
+    cout<<"2. nazwisko"<<endl;
+    cout<<"3. adres"<<endl;
+    cout<<"4. telefon"<<endl;
+    cout<<"5. mail"<<endl;
 }
 
-vector <Znajomy> edycjaZnajomego(vector <Znajomy> znajomi, int idWybranejOsoby) {
+vector <Znajomy> edycjaZnajomego(vector <Znajomy> &znajomi, int idWybranejOsoby) {
 
-            char wybor;
-            edycjaZnajomegoMenuPoczatkowe();
-            cin>>wybor;
+    char wybor;
+    edycjaZnajomegoMenuPoczatkowe();
+    cin>>wybor;
 
-
-        for(int i=0;i<znajomi.size();i++)
-            if(znajomi[i].idZnajomego==idWybranejOsoby)
-            {
-                switch (wybor) {
+    for(int i=0; i<znajomi.size(); i++)
+        if(znajomi[i].idZnajomego==idWybranejOsoby) {
+            switch (wybor) {
             case '1': {
                 cout<<"podaj zmienione imie"<<endl;
                 cin>>znajomi[i].imie;
@@ -507,108 +470,89 @@ vector <Znajomy> edycjaZnajomego(vector <Znajomy> znajomi, int idWybranejOsoby) 
             }
             break;
             }
-            }
+        }
     return znajomi;
 }
 
-vector <Znajomy> usuniecieZnajomegoZWektora (Znajomy usuwanyZnajomy, vector <Znajomy> znajomi) {
-            for (int i=0; i<znajomi.size(); i++)
-            {
-             if  (znajomi[i].idZnajomego==usuwanyZnajomy.idZnajomego)
+vector <Znajomy> usuniecieZnajomegoZWektora (vector <Znajomy> &znajomi, int idWybranejOsoby) {
+    for (int i=0; i<znajomi.size(); i++) {
+        if  (znajomi[i].idZnajomego==idWybranejOsoby)
             znajomi.erase(znajomi.begin()+i);
-            }
-            cout<<"Kontakt zostal pomyslnie usuniety !!"<<endl;
-            Sleep(2000);
-            system("cls");
+    }
+    cout<<"Kontakt zostal pomyslnie usuniety !!"<<endl;
+    Sleep(2000);
+    system("cls");
 
     return znajomi;
-
 }
 
-vector <Znajomy> utworzeniePlikuTymczasowego(int idWybranejOsoby, bool czyEdycja,vector <Znajomy> znajomi)
-{
+void zapisanieZmianDoPliku(int idWybranejOsoby, bool czyEdycja,vector <Znajomy> &znajomi) {
     Znajomy roboczy;
     string liniaZPliku;
     fstream ksiazkaAdresowa, plikTymczasowy;
-    //
-    ksiazkaAdresowa.open("ksiazkaAdresowa.txt", ios::out | ios::app);
+    ksiazkaAdresowa.open("ksiazkaAdresowa.txt", ios::in);
+    plikTymczasowy.open("plikTymczasowy.txt", ios::out);
 
     if (ksiazkaAdresowa.good() == true) {
-        while(getline(ksiazkaAdresowa,liniaZPliku))
-    {
-        roboczy=pobranieZnajomegoZJednejLinii(liniaZPliku);
-        if (roboczy.idZnajomego!=idWybranejOsoby)
-        {
-            plikTymczasowy.open("plikTymczasowy.txt", ios::out | ios::app);
-            plikTymczasowy<<liniaZPliku<<endl;
-            plikTymczasowy.close();
-
-        }
-        else if(roboczy.idZnajomego==idWybranejOsoby)
-        {
-            if (czyEdycja==true)
-            {
-                plikTymczasowy.open("plikTymczasowy.txt", ios::out | ios::app);
-                plikTymczasowy<<roboczy.idZnajomego<<"|"<<roboczy.idUzytkownika<<"|"<<roboczy.imie<<"|"<<roboczy.nazwisko<<"|"<<roboczy.adres<<"|"<<roboczy.telefon<<"|"<<roboczy.mail<<"|"<<endl;
-                plikTymczasowy.close();
+        while(getline(ksiazkaAdresowa,liniaZPliku)) {
+            roboczy=pobranieZnajomegoZJednejLinii(liniaZPliku);
+            if (roboczy.idZnajomego!=idWybranejOsoby) {
+                plikTymczasowy<<liniaZPliku<<endl;
+            } else if(roboczy.idZnajomego==idWybranejOsoby) {
+                if (czyEdycja==true) {
+                    for (int i=0; i<znajomi.size(); i++)
+                        if(znajomi[i].idZnajomego==idWybranejOsoby)
+                            plikTymczasowy<<znajomi[i].idZnajomego<<"|"<<znajomi[i].idUzytkownika<<"|"<<znajomi[i].imie<<"|"<<znajomi[i].nazwisko<<"|"<<znajomi[i].adres<<"|"<<znajomi[i].telefon<<"|"<<znajomi[i].mail<<"|"<<endl;
+                } else usuniecieZnajomegoZWektora(znajomi, idWybranejOsoby);
             }
-            else usuniecieZnajomegoZWektora(roboczy, znajomi);
-
         }
+        plikTymczasowy.close();
+        ksiazkaAdresowa.close();
+        remove( "ksiazkaAdresowa.txt" );
+        rename("plikTymczasowy.txt", "ksiazkaAdresowa.txt");
     }
-    ksiazkaAdresowa.close();
-    remove( "ksiazkaAdresowa.txt" );
-    rename("plikTymczasowy.txt", "ksiazkaAdresowa.txt");
+}
+
+vector <Znajomy> menuWewnetrzneEdycjiLubUsuniecia (vector <Znajomy> &znajomi, int idWybranejOsoby) {
+    char wybor;
+    int wybor2;
+    cin>>wybor;
+    switch (wybor) {
+
+    case '1': {
+        znajomi=edycjaZnajomego(znajomi, idWybranejOsoby);
+        zapisanieZmianDoPliku(idWybranejOsoby, true, znajomi);
+        system("cls");
+        cout<<"Dane edytowano pomyslnie !!"<<endl;
+        Sleep(2000);
+    }
+    break;
+    case '2': {
+        cout<<endl<<"Czy na pewno chcesz usunac ten kontakt? (1 - tak/ 2 - nie)"<<endl;
+        cin>>wybor2;
+
+        switch (wybor2) {
+        case 1: {
+            znajomi=usuniecieZnajomegoZWektora(znajomi, idWybranejOsoby);
+            zapisanieZmianDoPliku(idWybranejOsoby, false, znajomi);
+        }
+        break;
+        case 2: {
+            cout<<"Kontakt zostal niezmieniony!"<<endl;
+            Sleep(2000);
+        }
+        break;
+        default: {
+            cout << "Blad!! Sprobuj jeszcze raz" <<endl;
+        }
+        break;
+        }
+        system("cls");
+    }
+    break;
     }
     return znajomi;
 }
-
-vector <Znajomy> menuWewnetrzneEdycjiLubUsuniecia (vector <Znajomy> &znajomi, int idWybranejOsoby)
-{
-   char wybor;
-    int wybor2;
-
-    cin>>wybor;
-            switch (wybor) {
-
-            case '1': {
-                znajomi=edycjaZnajomego(znajomi, idWybranejOsoby);
-                znajomi=utworzeniePlikuTymczasowego(idWybranejOsoby, true, znajomi);
-                system("cls");
-                cout<<"Dane edytowano pomyslnie !!"<<endl;
-                Sleep(2000);
-            }
-            break;
-            case '2': {
-                cout<<endl<<"Czy na pewno chcesz usunac ten kontakt? (1 - tak/ 2 - nie)"<<endl;
-                cin>>wybor2;
-
-                switch (wybor2) {
-                case 1: {
-                    //znajomi=usuniecieZnajomego(znajomi, idWybranejOsoby);
-                    znajomi=utworzeniePlikuTymczasowego(idWybranejOsoby, false,znajomi);
-                }
-                break;
-                case 2: {
-                    cout<<"Kontakt zostal niezmieniony!"<<endl;
-                    Sleep(2000);
-                }
-                break;
-                default: {
-                    cout << "Blad!! Sprobuj jeszcze raz" <<endl;
-
-                }
-                break;
-                }
-                system("cls");
-
-            }
-            break;
-           }
-           return znajomi;
-}
-
-
 
 vector <Znajomy> edycjaLubUsuniecieZnajomego(vector <Znajomy> &znajomi) {
 
@@ -621,14 +565,12 @@ vector <Znajomy> edycjaLubUsuniecieZnajomego(vector <Znajomy> &znajomi) {
         int idWybranejOsoby = okreslenieKtoryZnajomyMaBycEdytowany(znajomi, nazwa);
         if (idWybranejOsoby!=-1) {
 
-
             cout<<endl<<"Wybierz co chcesz zrobic z wybranym kontaktem:"<<endl;
             cout<<"1.Edytuj"<<endl;
             cout<<"2.Usun"<<endl;
 
             znajomi=menuWewnetrzneEdycjiLubUsuniecia(znajomi, idWybranejOsoby);
-           }
-
+        }
     } else cout<<"nie masz znajomych"<<endl;
     Sleep(2000);
     system("cls");
@@ -636,36 +578,30 @@ vector <Znajomy> edycjaLubUsuniecieZnajomego(vector <Znajomy> &znajomi) {
 }
 
 vector <Znajomy> porownanieWektorowIAktualizacjaZnajomychPoWylogowaniu(vector <Znajomy> &znajomi, vector <Znajomy> &znajomiZOstatniegoLogowania, int idUzytkownika) {
-               for(int k=0; k<znajomi.size(); k++)
-                   if (znajomi[k].idUzytkownika==idUzytkownika)
-                   {
-                        znajomi.erase(znajomi.begin()+k);
-                        k--;
-                   }
-
-            for(int k=0; k<znajomiZOstatniegoLogowania.size();k++)
-                    znajomi.push_back(znajomiZOstatniegoLogowania[k]);
-
-return znajomi;
- }
-
-void menuStartoweKsiazkiAdresowej()
-{
-
-        cout << "Wybierz co chcesz teraz zrobic:" << endl;
-        cout << "1. Dodaj znajomego" << endl;
-        cout << "2. Znajdz znajomego" << endl;
-        cout << "3. Wyswietl liste wszystkich znajomych" << endl;
-        cout << "4. Edytuj lub usun znajomego" << endl;
-        cout << "9. Wyloguj" << endl;
+    for(int k=0; k<znajomi.size(); k++)
+        if (znajomi[k].idUzytkownika==idUzytkownika) {
+            znajomi.erase(znajomi.begin()+k);
+            k--;
+        }
+    for(int k=0; k<znajomiZOstatniegoLogowania.size(); k++)
+        znajomi.push_back(znajomiZOstatniegoLogowania[k]);
+    return znajomi;
 }
 
-vector <Znajomy> funkcjonalnoscKsiazkiAdresowej(vector <Znajomy> &znajomi, int idUzytkownika)
-{
-    while (1){
-    cout << "Ilosc wpisanych znajomych: "<< znajomi.size() << endl<<endl;
-    menuStartoweKsiazkiAdresowej();
-     char wybor;
+void menuStartoweKsiazkiAdresowej() {
+    cout << "Wybierz co chcesz teraz zrobic:" << endl;
+    cout << "1. Dodaj znajomego" << endl;
+    cout << "2. Znajdz znajomego" << endl;
+    cout << "3. Wyswietl liste wszystkich znajomych" << endl;
+    cout << "4. Edytuj lub usun znajomego" << endl;
+    cout << "9. Wyloguj" << endl;
+}
+
+vector <Znajomy> funkcjonalnoscKsiazkiAdresowej(vector <Znajomy> &znajomi, int idUzytkownika) {
+    while (1) {
+        cout << "Ilosc wpisanych znajomych: "<< znajomi.size() << endl<<endl;
+        menuStartoweKsiazkiAdresowej();
+        char wybor;
         cin >> wybor;
         system("cls");
         switch (wybor) {
@@ -700,175 +636,146 @@ vector <Znajomy> funkcjonalnoscKsiazkiAdresowej(vector <Znajomy> &znajomi, int i
         break;
         }
     }
-        return znajomi;
+    return znajomi;
 }
 
-
-void ksiazkaAdresowa(string login, int idUzytkownika) { //vector <Znajomy> znajomi,   vector <Znajomy>
-
+void ksiazkaAdresowa(string login, int idUzytkownika) {
 
     cout <<login<<" - witaj w Twojej ksiazce adresowej!" << endl;
     vector <Znajomy> znajomi=pobranieWszystkichZnajomychZPlikuDlaDanegoUzytkownika (idUzytkownika);
 
-        znajomi=funkcjonalnoscKsiazkiAdresowej(znajomi, idUzytkownika);
+    znajomi=funkcjonalnoscKsiazkiAdresowej(znajomi, idUzytkownika);
 
     return;
 }
 
-bool wpisanieHaslaPodczasLogowania(Uzytkownik uzytkownik, string login)
-{
+bool wpisanieHaslaPodczasLogowania(Uzytkownik uzytkownik, string login) {
     int licznikBlednychHasel=0;
     string hasloWpisane;
     bool czyZatwierdzoneHaslo=false;
-    while(1)
-    {
-             system("cls");
+    while(1) {
+        system("cls");
         cout<<"Podaj haslo dla loginu "<<login<<" lub powroc do menu glownego, wpisujac 0 i zatwierdzajac enterem:"<<endl;
         cin>>hasloWpisane;
 
         if (hasloWpisane=="0") return true;
 
-            else if (uzytkownik.haslo==hasloWpisane)
-                {
-                    czyZatwierdzoneHaslo=true;
-                    system("cls");
+        else if (uzytkownik.haslo==hasloWpisane) {
+            czyZatwierdzoneHaslo=true;
+            system("cls");
 
-                ksiazkaAdresowa(uzytkownik.login, uzytkownik.id);
+            ksiazkaAdresowa(uzytkownik.login, uzytkownik.id);
 
-                return true;
-                }
-            else if (uzytkownik.haslo!=hasloWpisane )
-                {
-                    system("cls");
-                cout<<"Bledne haslo dla loginu "<<uzytkownik.login<<"."<<endl;
-                cout<<"Sproboj jeszcze raz."<<endl;
-                Sleep(1000);
-                licznikBlednychHasel++;
-                system("cls");
-                if(licznikBlednychHasel>=3)
-                {
+            return true;
+        } else if (uzytkownik.haslo!=hasloWpisane ) {
+            system("cls");
+            cout<<"Bledne haslo dla loginu "<<uzytkownik.login<<"."<<endl;
+            cout<<"Sproboj jeszcze raz."<<endl;
+            Sleep(1000);
+            licznikBlednychHasel++;
+            system("cls");
+            if(licznikBlednychHasel>=3) {
                 zabezpieczenieTrzechBlednychHasel();
                 licznikBlednychHasel=0;
-                }
             }
+        }
     }
-
 }
-void logowanie(vector <Uzytkownik> &uzytkownicy) //vector <Znajomy>
-{
+
+void logowanie(vector <Uzytkownik> &uzytkownicy) {
     char wybor;
     vector <Znajomy> znajomiUzytkownika;
     bool zatwierdzoneHaslo=false;
     int id;
     string login;
 
-   while(1)
-   {
+    while(1) {
+        if (zatwierdzoneHaslo==true) break;
+        system("cls");
 
-    if (zatwierdzoneHaslo==true) break;
-    system("cls");
+        cout<<"Podaj login:"<<endl;
+        cin>>login;
 
-    cout<<"Podaj login:"<<endl;
-    cin>>login;
-
-    for (int i=0; i<uzytkownicy.size(); i++)
-    {
-     if (uzytkownicy[i].login==login)
-     {
-         id=uzytkownicy[i].id;
-         while(1)
-         {
-           if (zatwierdzoneHaslo==true) break;
-           wpisanieHaslaPodczasLogowania(uzytkownicy[i], login);
-           return;
-
-         }
-     }
-     else if(uzytkownicy[i].login!=login && i==(uzytkownicy.size()-1) && zatwierdzoneHaslo==false)
-        {
-         cout<<"Nie ma takiego loginu. Chcesz sprobowac jeszcze raz? (t/n)"<<endl;
-         cin>>wybor;
-         if (wybor=='t')
-            system("cls");
-         else return;
+        for (int i=0; i<uzytkownicy.size(); i++) {
+            if (uzytkownicy[i].login==login) {
+                id=uzytkownicy[i].id;
+                while(1) {
+                    if (zatwierdzoneHaslo==true) break;
+                    wpisanieHaslaPodczasLogowania(uzytkownicy[i], login);
+                    return;
+                }
+            } else if(uzytkownicy[i].login!=login && i==(uzytkownicy.size()-1) && zatwierdzoneHaslo==false) {
+                cout<<"Nie ma takiego loginu. Chcesz sprobowac jeszcze raz? (t/n)"<<endl;
+                cin>>wybor;
+                if (wybor=='t')
+                    system("cls");
+                else return;
+            }
         }
     }
-   }
-   return;
+    return;
 }
 
-vector <Uzytkownik> rejestracja(vector <Uzytkownik> &uzytkownicy)
-{
+vector <Uzytkownik> rejestracja(vector <Uzytkownik> &uzytkownicy) {
     Uzytkownik nowy;
     string haslo;
 
-    while(1){
-    system("cls");
-    cout<<"Zaproponuj swoj unikalny login:"<<endl;
-    cin>>nowy.login;
+    while(1) {
+        system("cls");
+        cout<<"Zaproponuj swoj unikalny login:"<<endl;
+        cin>>nowy.login;
 
-    for (int i=0; i<uzytkownicy.size(); i++)
-    {
-        if (uzytkownicy[i].login==nowy.login){
-            cout<<"Taki login istnieje juz w bazie! Musisz wybrac inny."<<endl;
-            Sleep(1300);
-            break;
-        }
-        else if (uzytkownicy[i].login!=nowy.login && i==(uzytkownicy.size()-1))
-        {
-            while(1)
-            {
-            system("cls");
-            cout<<"Podaj haslo, skladajace sie z conajmniej 5 znakow:"<<endl;
-            cin>>haslo;
+        for (int i=0; i<uzytkownicy.size(); i++) {
+            if (uzytkownicy[i].login==nowy.login) {
+                cout<<"Taki login istnieje juz w bazie! Musisz wybrac inny."<<endl;
+                Sleep(1300);
+                break;
+            } else if (uzytkownicy[i].login!=nowy.login && i==(uzytkownicy.size()-1)) {
+                while(1) {
+                    system("cls");
+                    cout<<"Podaj haslo, skladajace sie z conajmniej 5 znakow:"<<endl;
+                    cin>>haslo;
 
-            if(haslo.length()>=5)
-            {
-            nowy.haslo=haslo;
+                    if(haslo.length()>=5) {
+                        nowy.haslo=haslo;
 
-            nowy.id=uzytkownicy.size()+1;
-            uzytkownicy.push_back(nowy);
+                        nowy.id=uzytkownicy.size()+1;
+                        uzytkownicy.push_back(nowy);
 
-            system("cls");
-            cout<<"Konto zostalo zalozone."<<endl;
-            dodanieDoPlikuJednegoUzytkownika(nowy);
-            Sleep(1300);
-            return uzytkownicy;
-            }
-            else
-            {
-            cout<<"wprowadzone haslo jest zbyt krotkie!"<<endl;
-            Sleep(1300);
-            }
+                        system("cls");
+                        cout<<"Konto zostalo zalozone."<<endl;
+                        dodanieDoPlikuJednegoUzytkownika(nowy);
+                        Sleep(1300);
+                        return uzytkownicy;
+                    } else {
+                        cout<<"wprowadzone haslo jest zbyt krotkie!"<<endl;
+                        Sleep(1300);
+                    }
+                }
             }
         }
-    }
     }
 }
 
-
-int main()
-{
+int main() {
     char wybor='0';
     vector <Uzytkownik> uzytkownicy;
     vector <Znajomy> znajomi;
 
-
     uzytkownicy=wczytanieUzytkownikowZPliku();
 
-while(1){
+    while(1) {
         system("cls");
-    cout<<"Witaj w ksiazce adresowej!"<<endl;
-    cout<<"Zaloguj sie, a jesli nie masz konta - zarejestruj sie!"<<endl<<endl;
-    cout<<"1.Logowanie"<<endl;
-    cout<<"2.Rejestracja"<<endl;
-    cout<<"3.Zamknij program"<<endl;
+        cout<<"Witaj w ksiazce adresowej!"<<endl;
+        cout<<"Zaloguj sie, a jesli nie masz konta - zarejestruj sie!"<<endl<<endl;
+        cout<<"1.Logowanie"<<endl;
+        cout<<"2.Rejestracja"<<endl;
+        cout<<"3.Zamknij program"<<endl;
 
-    cin>>wybor;
+        cin>>wybor;
 
-
-switch(wybor){
-     case '1': {
+        switch(wybor) {
+        case '1': {
             logowanie(uzytkownicy);
         }
         break;
@@ -881,16 +788,13 @@ switch(wybor){
             cout<<"Program zakonczony pomyslnie. Do zobaczenia!"<<endl;
             Sleep(1000);
             return 0;
-
         }
         break;
         default: {
             cout << "Blad!! Sprobuj jeszcze raz" <<endl;
-
         }
         break;
-
-     }
-}
+        }
+    }
     return 0;
 }

@@ -631,7 +631,6 @@ vector <Znajomy> funkcjonalnoscKsiazkiAdresowej(vector <Znajomy> &znajomi, int i
         break;
         default: {
             cout << "Blad!! Sprobuj jeszcze raz" <<endl;
-            return znajomi;
         }
         break;
         }
@@ -688,7 +687,12 @@ void logowanie(vector <Uzytkownik> &uzytkownicy) {
     bool zatwierdzoneHaslo=false;
     int id;
     string login;
-
+if (uzytkownicy.size()==0)
+{
+    cout<<"musisz sie zarejestrowac!"<<endl;
+    Sleep(1300);
+    return;
+}
     while(1) {
         if (zatwierdzoneHaslo==true) break;
         system("cls");
@@ -716,45 +720,55 @@ void logowanie(vector <Uzytkownik> &uzytkownicy) {
     return;
 }
 
-vector <Uzytkownik> rejestracja(vector <Uzytkownik> &uzytkownicy) {
+
+vector <Uzytkownik> podanieHaslaPodczasRejestracji(string login, vector <Uzytkownik> &uzytkownicy) {
     Uzytkownik nowy;
     string haslo;
+    system("cls");
+    while(1) {
+        cout<<"Podaj haslo, skladajace sie z conajmniej 5 znakow:"<<endl;
+        cin>>haslo;
+
+        if(haslo.length()>=5) {
+            nowy.haslo=haslo;
+            nowy.login=login;
+            nowy.id=uzytkownicy.size()+1;
+            uzytkownicy.push_back(nowy);
+
+            system("cls");
+            cout<<"Konto zostalo zalozone."<<endl;
+            dodanieDoPlikuJednegoUzytkownika(nowy);
+            Sleep(1300);
+            return uzytkownicy;
+        } else {
+            cout<<"wprowadzone haslo jest zbyt krotkie!"<<endl;
+            Sleep(1300);
+        }
+    }
+}
+
+vector <Uzytkownik> rejestracja(vector <Uzytkownik> &uzytkownicy) {
+    string login;
 
     while(1) {
         system("cls");
         cout<<"Zaproponuj swoj unikalny login:"<<endl;
-        cin>>nowy.login;
-
-        for (int i=0; i<uzytkownicy.size(); i++) {
-            if (uzytkownicy[i].login==nowy.login) {
-                cout<<"Taki login istnieje juz w bazie! Musisz wybrac inny."<<endl;
-                Sleep(1300);
-                break;
-            } else if (uzytkownicy[i].login!=nowy.login && i==(uzytkownicy.size()-1)) {
-                while(1) {
-                    system("cls");
-                    cout<<"Podaj haslo, skladajace sie z conajmniej 5 znakow:"<<endl;
-                    cin>>haslo;
-
-                    if(haslo.length()>=5) {
-                        nowy.haslo=haslo;
-
-                        nowy.id=uzytkownicy.size()+1;
-                        uzytkownicy.push_back(nowy);
-
-                        system("cls");
-                        cout<<"Konto zostalo zalozone."<<endl;
-                        dodanieDoPlikuJednegoUzytkownika(nowy);
-                        Sleep(1300);
-                        return uzytkownicy;
-                    } else {
-                        cout<<"wprowadzone haslo jest zbyt krotkie!"<<endl;
-                        Sleep(1300);
-                    }
+        cin>>login;
+        if(uzytkownicy.size()>0) {
+            for (int i=0; i<uzytkownicy.size(); i++) {
+                if (uzytkownicy[i].login==login) {
+                    cout<<"Taki login istnieje juz w bazie! Musisz wybrac inny."<<endl;
+                    Sleep(1300);
+                    break;
+                } else if (uzytkownicy[i].login!=login && i==(uzytkownicy.size()-1)){
+                    uzytkownicy=podanieHaslaPodczasRejestracji(login, uzytkownicy);
+                    return uzytkownicy;
                 }
             }
-        }
+        } else {uzytkownicy=podanieHaslaPodczasRejestracji(login, uzytkownicy);
+        return uzytkownicy;}
     }
+
 }
 
 int main() {
